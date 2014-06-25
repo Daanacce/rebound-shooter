@@ -30,3 +30,29 @@ function moveEnemy(shape, dir, speed, dt)
    shape:move(-speed*dt, -speed*dt)
   end
 end
+function spawnEnemyMine(x, y)
+  if y = nil then
+    y = 0
+  local mine = {} --just creating the mine now
+  mine.shape = collider:addCircle(x, y, 10) --twice the size of a bullet
+  mine.hp = 1 --if it hits something, it dies
+  mine.movement = {{move = "d", switch = 1}, {move = "u", switch = 0.25}} --floating effect
+  mine.speed = 40 -- will edit later to scroll speed * 1.25
+  mine.damage = 50 -- only from collision
+  table.insert(enemies, mine)
+end
+function spawnEnemyMach(x, y)
+  if y = nil then
+    y = 0
+  local mach = {} --machine gun enemy, should move down until a point, then left-right
+  mach.shape = collider:addPolygon(x, y, x + 4, y - 12, x - 4, y - 12)
+  mach.hp = 25 -- easy to kill
+  mach.movement = {{move = "d", switch = 1}, {move = "d", switch = 1}} --just down for now
+  mach.speed = 50
+  mach.rate = 0.1
+  mach.damage = 25
+  mach.n = 1
+  mach.p = 7
+  mach.nextShot = love.timer.getTime() + mach.rate
+  table.insert(enemies, mach)
+end
